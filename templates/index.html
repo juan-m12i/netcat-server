@@ -1,20 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Netcat Server Terminal</title>
-    <style>
-        /* Add your CSS styles for the terminal interface here */
-    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const socket = io.connect("http://" + document.domain + ":" + location.port);
+
+            socket.on("connect", function() {
+                console.log("Connected");
+            });
+
+            socket.on("message", function(msg) {
+                const p = document.createElement("p");
+                p.textContent = msg;
+                document.getElementById("output").appendChild(p);
+            });
+        });
+    </script>
 </head>
 <body>
-    <div id="terminal">
-        <!-- Add your HTML elements for the terminal interface here -->
-    </div>
-    <script>
-        // Add your JavaScript code for the terminal interface and filtering functionality here
-    </script>
+    <div id="output"></div>
 </body>
 </html>
-

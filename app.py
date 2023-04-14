@@ -10,9 +10,11 @@ socketio = SocketIO(app)
 
 BUFFER_SIZE = 1024
 PORT_NUMBER = 12345
+
 def handle_client(client_socket, client_address):
     data = client_socket.recv(BUFFER_SIZE)
     print(f"Received data from {client_address}: {data.decode('utf-8')}")
+    socketio.emit("message", f"{client_address}: {data.decode('utf-8')}")  # Send the data to connected clients
 
 def start_netcat_listener(port):
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -26,18 +28,13 @@ def start_netcat_listener(port):
 
 threading.Thread(target=start_netcat_listener, args=(PORT_NUMBER,)).start()
 
-
 @app.route("/")
 def index():
     return render_template("index.html")
-
 
 @socketio.on("connect")
 def handle_connect():
     emit("message", "Connected")
 
-
 if __name__ == "__main__":
     socketio.run(app, allow_unsafe_werkzeug=True)
-
-
