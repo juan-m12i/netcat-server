@@ -1,13 +1,24 @@
-"""A simple Flask app that listens for incoming netcat connections and displays the received data in real-time using SocketIO.
+"""
+A Flask app that listens for incoming netcat connections and displays the received data in real-time using SocketIO.
 
-This app listens for incoming netcat connections on a specified port and displays the received data in real-time using SocketIO. The app also includes a simple HTML template that displays the received data.
+This app uses several Python libraries to accomplish its goal:
 
-Example usage:
-$ python app.py
- * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+- Flask: a third-party web framework that makes it easy to build web applications in Python. Flask is used to serve the HTML template and handle HTTP requests.
+
+- Flask-SocketIO: a third-party library that provides SocketIO integration for Flask. SocketIO is used to send the received data to connected clients in real-time.
+
+- socket: a standard Python library that provides low-level network communication. socket is used to listen for incoming netcat connections and receive data.
+
+- threading: a standard Python library that provides multi-threading support. threading is used to spawn a new thread for each incoming netcat connection, so that the app can handle multiple connections simultaneously.
+
+When the app is run, it starts a listener for incoming netcat connections on a specified port. When data is received from a client, the app sends the data to connected clients using SocketIO in real-time. The app also includes a simple HTML template that displays the received data.
+
+Two ports will be open on the server when running this application: the Flask server port, which defaults to 5000, and the netcat listener port, which is set to 12345 by default.
+
+The main execution thread of this app is the Flask server, which listens for incoming HTTP requests and serves the HTML template. When a netcat connection is made, a new thread is spawned to handle the connection and receive data in real-time using SocketIO. The main thread continues to listen for new HTTP requests while the sub-threads handle the netcat connections.
 """
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template
 from datetime import datetime
 import socket
 import threading
@@ -21,14 +32,14 @@ app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
 # Create a SocketIO instance for real-time communication
 socketio = SocketIO(app)
 
+
 # Set the buffer size and port number for the netcat listener
 BUFFER_SIZE = 1024
-PORT_NUMBER = 12345
+NETCAT_PORT_NUMBER = 12345
+
 
 # This function handles incoming netcat connections and displays the
 # received data in real-time
-
-
 def handle_client(client_socket, client_address):
     # Receive data from the client
     data = client_socket.recv(BUFFER_SIZE)
@@ -41,10 +52,9 @@ def handle_client(client_socket, client_address):
                    "timestamp": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
                    "content": data.decode('utf-8')})
 
+
 # This function starts a listener for incoming netcat connections on the
 # specified port
-
-
 def start_netcat_listener(port):
     # Create a socket for the server
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -63,18 +73,21 @@ def start_netcat_listener(port):
 
 
 # Start the netcat listener in a separate thread
-threading.Thread(target=start_netcat_listener, args=(PORT_NUMBER,)).start()
+threading.Thread(
+    target=start_netcat_listener,
+    args=(
+        NETCAT_PORT_NUMBER,
+    )).start()
 
-# This route serves the index.html template
 
-
+# The only page of the app, with javascript code to connect to the
+# SocketIO server
 @app.route("/")
 def index():
     return render_template("index.html")
 
+
 # This SocketIO event handler runs when a client connects to the server
-
-
 @socketio.on("connect")
 def handle_connect():
     # Send a "Connected" message to the connected client using SocketIO
