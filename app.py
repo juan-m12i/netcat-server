@@ -32,10 +32,10 @@ app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
 # Create a SocketIO instance for real-time communication
 socketio = SocketIO(app)
 
-
 # Set the buffer size and port number for the netcat listener
 BUFFER_SIZE = 1024
 NETCAT_PORT_NUMBER = 12345
+FLASK_APP_PORT = 5010
 
 
 # This function handles incoming netcat connections and displays the
@@ -45,6 +45,7 @@ def handle_client(client_socket, client_address):
     data = client_socket.recv(BUFFER_SIZE)
     # Print the received data to the console
     print(f"Received data from {client_address}: {data.decode('utf-8')}")
+
     # Send the received data to connected clients using SocketIO, along with
     # IP address and timestamp
     socketio.emit("message",
@@ -56,6 +57,7 @@ def handle_client(client_socket, client_address):
 # This function starts a listener for incoming netcat connections on the
 # specified port
 def start_netcat_listener(port):
+    print(f"Starting netcat listener on port {port}")
     # Create a socket for the server
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # Bind the socket to the specified port
@@ -96,4 +98,4 @@ def handle_connect():
 
 # Start the Flask app with SocketIO support
 if __name__ == "__main__":
-    socketio.run(app, allow_unsafe_werkzeug=True)
+    socketio.run(app, allow_unsafe_werkzeug=True)  #, debug=True)  # , host='0.0.0.0')  # port=FLASK_APP_PORT)
