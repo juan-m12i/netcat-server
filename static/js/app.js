@@ -18,6 +18,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const metadataCell = document.createElement("td");
     metadataCell.innerHTML = `IP: ${data.ip}<br>Timestamp: ${data.timestamp}`;
+    metadataCell.className = "align-top";
+    metadataCell.classList.add("bg-black", "text-green-400", "font-mono");
     row.appendChild(metadataCell);
 
     const contentCell = document.createElement("td");
@@ -39,7 +41,8 @@ document.addEventListener("DOMContentLoaded", function () {
     };
     contentCell.appendChild(copyButton);
     contentCell.classList.add("bg-black", "text-green-400", "font-mono");
-    metadataCell.classList.add("bg-black", "text-green-400", "font-mono");
+
+
 
 
     row.appendChild(contentCell);
