@@ -6,9 +6,12 @@ document.addEventListener("DOMContentLoaded", function () {
     socket.emit("user_connected");
   });
 
-  socket.on("message", function (data) {
-    addRow(data);
-  });
+    socket.on("message", function (data) {
+      if (data.ip !== undefined && data.timestamp !== undefined) {
+        addRow(data);
+      }
+    });
+
 
   function addRow(data) {
     const row = document.createElement("tr");
@@ -18,7 +21,8 @@ document.addEventListener("DOMContentLoaded", function () {
     row.appendChild(metadataCell);
 
     const contentCell = document.createElement("td");
-    contentCell.className = "relative max-h-24 p-2 overflow-y-auto";
+    contentCell.className = "relative max-h-24 p-2 overflow-y-auto break-all";
+
     if (data.content) {
       contentCell.innerHTML = data.content.replace(/\n/g, "<br>");
     } else {
@@ -34,6 +38,9 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     };
     contentCell.appendChild(copyButton);
+    contentCell.classList.add("bg-black", "text-green-400", "font-mono");
+    metadataCell.classList.add("bg-black", "text-green-400", "font-mono");
+
 
     row.appendChild(contentCell);
     tableBody.appendChild(row);
