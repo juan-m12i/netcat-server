@@ -9,4 +9,4 @@ if docker ps -a --format '{{.Names}}' | grep -q "^$CONTAINER_NAME$"; then
   docker rm $CONTAINER_NAME
 fi
 
-docker run -d --name $CONTAINER_NAME -p 5000:5000 -p 12345:12345 $IMAGE_NAME
+docker run -d --name $CONTAINER_NAME -p 5010:5010 -p 12345:12345 $IMAGE_NAME
