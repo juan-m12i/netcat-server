@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+from datetime import datetime
 import socket
 import threading
 import os
@@ -14,7 +15,9 @@ PORT_NUMBER = 12345
 def handle_client(client_socket, client_address):
     data = client_socket.recv(BUFFER_SIZE)
     print(f"Received data from {client_address}: {data.decode('utf-8')}")
-    socketio.emit("message", f"{client_address}: {data.decode('utf-8')}")  # Send the data to connected clients
+    socketio.emit("message", {"ip": client_address[0], "timestamp": datetime.now().strftime('%Y-%m-%d %H:%M:%S'), "content": data.decode('utf-8')})
+
+
 
 def start_netcat_listener(port):
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

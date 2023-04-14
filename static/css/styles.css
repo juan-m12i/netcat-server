@@ -1,9 +1,12 @@
-.select-text {
-  user-select: text;
+.table-cell-content {
+    max-height: 100px;
+    overflow-y: auto;
 }
 
-.terminal {
-  min-height: 300px;
-  max-height: 500px;
-  overflow-y: auto;
+.hover-clipboard {
+    display: none;
+}
+
+.table-cell-content:hover .hover-clipboard {
+    display: block;
 }
