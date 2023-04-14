@@ -1,24 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netcat Server Terminal</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.min.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const socket = io.connect("http://" + document.domain + ":" + location.port);
-
-            socket.on("connect", function() {
-                console.log("Connected");
-            });
-
-            socket.on("message", function(msg) {
-                const p = document.createElement("p");
-                p.textContent = msg;
-                document.getElementById("output").appendChild(p);
-            });
-        });
-    </script>
+    <script src="/static/js/app.js" defer></script>
 </head>
-<body>
-    <div id="output"></div>
+<body class="bg-gray-900 text-green-400 font-mono">
+    <div class="container mx-auto p-4">
+        <h1 class="text-2xl font-bold mb-4">Netcat Server Terminal</h1>
+        <div class="terminal bg-gray-800 p-4 rounded shadow-lg relative">
+            <div id="terminal-output" class="whitespace-pre-wrap select-text"></div>
+            <input type="text" id="terminal-input" class="bg-transparent w-full focus:outline-none mt-2" autofocus>
+        </div>
+    </div>
 </body>
 </html>
