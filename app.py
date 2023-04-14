@@ -99,4 +99,4 @@ def handle_connect():
 
 # Start the Flask app with SocketIO support
 if __name__ == "__main__":
-    socketio.run(app, allow_unsafe_werkzeug=True, port=FLASK_APP_PORT)  #, debug=True)  # , host='0.0.0.0')  # port=FLASK_APP_PORT)
+    socketio.run(app, allow_unsafe_werkzeug=True, port=FLASK_APP_PORT, host='0.0.0.0')  #, debug=True)  # , host='0.0.0.0')  # port=FLASK_APP_PORT)
