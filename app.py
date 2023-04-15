@@ -17,7 +17,6 @@ Two ports will be open on the server when running this application: the Flask se
 
 The main execution thread of this app is the Flask server, which listens for incoming HTTP requests and serves the HTML template. When a netcat connection is made, a new thread is spawned to handle the connection and receive data in real-time using SocketIO. The main thread continues to listen for new HTTP requests while the sub-threads handle the netcat connections.
 """
-import time
 
 from flask import Flask, render_template
 from datetime import datetime
