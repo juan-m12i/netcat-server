@@ -53,8 +53,45 @@ if [ "$1" = "set-address" ]; then
   exit
 fi
 
-# Other options and arguments processing
-# ...
+
+
+# Parse arguments
+while [[ $# -gt 0 ]]
+do
+key="$1"
+
+case $key in
+    -ip)
+    IP="$2"
+    shift # past argument
+    shift # past value
+    ;;
+    -p|-port)
+    PORT="$2"
+    shift # past argument
+    shift # past value
+    ;;
+    --)
+    shift # past the double dash
+    NETCAT_ARGS="$*"
+    break
+    ;;
+    *)
+    COMMAND="$COMMAND $1"
+    shift
+    ;;
+esac
+done
+
+if [ -z "$COMMAND" ]; then
+  # If command is not provided, use stdin
+  netcat $NETCAT_ARGS $IP $PORT
+else
+  # If command is provided, execute it and pipe the output to netcat
+  eval "$COMMAND" | netcat $NETCAT_ARGS $IP $_PORT
+fi
+
+
 
 # Use the updated DEFAULT_IP and DEFAULT_PORT variables for netcat
 echo -n "$@" | nc "${DEFAULT_IP}" "${DEFAULT_PORT}"
