@@ -5,7 +5,7 @@ echo "Starting wnc installation..."
 # Default values
 DEFAULT_WNC_PATH="/usr/local/bin"
 DEFAULT_CONFIG_PATH="${HOME}"
-DEFAULT_IP="192.168.1.100"
+DEFAULT_IP="192.168.68.111"
 DEFAULT_PORT="12345"
 
 # Prompt user for installation path
@@ -25,13 +25,13 @@ read -p "Enter the default port for wnc (default: ${DEFAULT_PORT}): " PORT
 PORT=${PORT:-$DEFAULT_PORT}
 
 # Check if wnc script exists
-if [ ! -f "wnc" ]; then
+if [ ! -f "wnc.sh" ]; then
   echo "Error: wnc script not found in the current directory"
   exit 1
 fi
 
 # Copy wnc script to the installation path and set execution rights
-cp "wnc" "${WNC_PATH}/wnc"
+cp "wnc.sh" "${WNC_PATH}/wnc"
 chmod +x "${WNC_PATH}/wnc"
 
 # Create the config file with the provided IP and port
