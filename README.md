@@ -22,3 +22,7 @@ This repository contains the implementation of a netcat server built with Flask,
 - Docker (containerization platform)
 - JavaScript libraries for WebSocket communication and terminal UI implementation (e.g., Socket.IO and xterm.js)
 
+
+## Installing client
+
+`curl -s https://api.github.com/repos/juan-m12i/netcat-server/releases/latest | jq -r '.assets[] | select(.name=="wnc_client.tar.gz") | .browser_download_url'`
