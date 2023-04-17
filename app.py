@@ -27,15 +27,16 @@ from flask_socketio import SocketIO, emit
 
 # Create a Flask app and configure a secret key for security
 app = Flask(__name__)
-app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")  # TODO: check if this is being used and if it should be, maybe as part of securisation of the server
 
 # Create a SocketIO instance for real-time communication
 socketio = SocketIO(app)
 
 # Set the buffer size and port number for the netcat listener
 BUFFER_SIZE = 1024
-NETCAT_PORT_NUMBER = 12345
-FLASK_APP_PORT = 5010
+
+NETCAT_PORT_NUMBER = 12345  # TODO probably move to a config or environment file
+FLASK_APP_PORT = 5010  # TODO probably move to a config or environment file
 
 
 # This function handles incoming netcat connections and displays the
@@ -75,6 +76,7 @@ def start_netcat_listener(port):
 
 
 # Start the netcat listener in a separate thread
+# This is important as the server will be both opening the port for the Flask webapp, but also to listen to netcat requests, and this happens in different threads
 threading.Thread(
     target=start_netcat_listener,
     args=(
@@ -82,8 +84,7 @@ threading.Thread(
     )).start()
 
 
-# The only page of the app, with javascript code to connect to the
-# SocketIO server
+# The only page of the app, using the native Flash method: render_template (see html code including imports in templates/index.html)
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -96,6 +97,13 @@ def handle_connect():
     emit("message", "Connected")
 
 
-# Start the Flask app with SocketIO support
+# This is the entry point when the code is executed from a command line to this file (example python app.py).
+# If the module were to be imported into a different module, the code below would be ignored
+# This will start the server
 if __name__ == "__main__":
-    socketio.run(app, allow_unsafe_werkzeug=True, port=FLASK_APP_PORT, host='0.0.0.0')  #, debug=True)  # , host='0.0.0.0')  # port=FLASK_APP_PORT)
+    # Start the Flask app with SocketIO support
+    # TODO: review how a proper production-grade server could be used instead of werkzeug, specially with unsafe mode
+    # host=0.0.0.0 was required to run on docker, but not on local
+    socketio.run(app, allow_unsafe_werkzeug=True, port=FLASK_APP_PORT, host='0.0.0.0')
+
+
