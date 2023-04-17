@@ -1,6 +1,12 @@
 # netcat-server
 
-This repository contains the implementation of a netcat server built with Flask, rendering received data in a retro-style terminal interface.
+This repository contains the implementation of a web application that functions as a [netcat](https://en.wikipedia.org/wiki/Netcat) server. It was built in python with Flask, rendering received data in a retro-style terminal interface.
+
+## Netcat
+
+## Project structure
+The main component of the project is the webapp that acts as a friendly user interface for receiving commands from netcat clients. The project also includes a client and installer that is a thing wrapper around netcat to be used in a command line with pre-defined IPs and ports for ease of calling. The ideal scenario for this is having access to a server (either inside of a personal/private network or via a cloud provider) that will be running the application constantly and that can be sent data from any client that has access to the server. This facilitates to get data from the clients to be used for instance with tools like ChatGPT to debug issues in the client more easily, but also just sending an e-mail to an admin, or even googling.
+You can read about the thin client [here](/unix_client/Readme.md) 
 
 ## Setup
 
