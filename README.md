@@ -3,6 +3,7 @@
 This repository contains the implementation of a web application that functions as a [netcat](https://en.wikipedia.org/wiki/Netcat) server. It was built in python with Flask, rendering received data in a retro-style terminal interface.
 
 ## Netcat
+https://en.wikipedia.org/wiki/Netcat
 
 ## Project structure
 The main component of the project is the webapp that acts as a friendly user interface for receiving commands from netcat clients. The project also includes a client and installer that is a thing wrapper around netcat to be used in a command line with pre-defined IPs and ports for ease of calling. The ideal scenario for this is having access to a server (either inside of a personal/private network or via a cloud provider) that will be running the application constantly and that can be sent data from any client that has access to the server. This facilitates to get data from the clients to be used for instance with tools like ChatGPT to debug issues in the client more easily, but also just sending an e-mail to an admin, or even googling.
@@ -56,7 +57,7 @@ The main branch will be connected with github actions to create new releases.
 
 - A "pre-release" branch exists for having new features to be bundled together for a new release
 - A "development" branch exists for working concurrently on new features and making sure there are no conflicts. It's strongly encouraged to pull from this branch frequently
-- New features and issues should be built in new specific branches following the github issue number
+- New features and issues should be built in new specific branches following the github issue number. Using Github's UI this will look like: 1-add-tests
 - Code should be merged to "development" ideally via a Pull Request to be reviewed by someone else
 - Feel free to add "TODO" comments when there are obvious improvements or additions to make
 - The working practices can evolve to accommodate preferences of contributors
