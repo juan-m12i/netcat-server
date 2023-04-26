@@ -61,3 +61,9 @@ The main branch will be connected with github actions to create new releases.
 - Code should be merged to "development" ideally via a Pull Request to be reviewed by someone else
 - Feel free to add "TODO" comments when there are obvious improvements or additions to make
 - The working practices can evolve to accommodate preferences of contributors
+
+
+## Use to pipe errors
+``` bash
+<your command> 2>&1 | wnc
+```
